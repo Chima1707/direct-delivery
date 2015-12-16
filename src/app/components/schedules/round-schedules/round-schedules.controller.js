@@ -15,7 +15,6 @@ angular.module('schedules.round')
 
       _this.STATUS = DELIVERY_STATUS;
       _this.rounds = rounds;
-
       _this.getColorCode = function (status, ccsClass) {
         return deliveryService.getStatusColor(status, ccsClass);
       };
@@ -33,11 +32,13 @@ angular.module('schedules.round')
       _this.showDisplayRound = function (roundUUID) {
         scheduleService.getByRound(roundUUID)
             .then(function (res) {
+            
               _this.displayRound = res;
-            });
+            })
       };
 
       _this.toggleDisplay = function (roundId) {
+        _this.displayRound = null
         if (roundId === _this.roundToDisplay) {
           _this.roundToDisplay = null;
         } else {

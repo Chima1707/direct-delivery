@@ -24,30 +24,48 @@ angular.module('home.returned')
       });
     }
 
-    function reset(schedule){
+    function reset(schedules){
       var keyOrder = [];
       vm.packedProducts = [];
-      if(schedule.packingList){
+      
+      //iterate the list of schedules for that day
+      schedules.forEach( function (schedule){
+        //for each schedule iterate the parking list property
         schedule.packingList.forEach(function(product){
-          keyOrder.push(product.productID);
-          packedProductJson[product.productID] = {
-            totalRetrieved : 0,
-            totalDelivered: 0,
-            packedQty: (parseInt(product.packedQty)) || 0,
-            balance: 0,
-            calcdBalance: 0,
-            id: product.productID
-          };
-        });
+          // check if productID exists on keyOrder
+          //if not add it
+          if(keyOrder.indexOf(product.productID) === -1){
+            keyOrder.push(product.productID);
+          }
+          // check if productId exists on packedProductJson
+          if(packedProductJson[product.productID]){
+            
+            packedProductJson[product.productID].packedQty =  packedProductJson[product.productID].packedQty + ((parseInt(product.packedQty)) || 0)
+          }
+          else{ // now create the first property to represent this productID on packedProductJson
+            packedProductJson[product.productID] = {
+              totalRetrieved : 0,
+              totalDelivered: 0,
+              packedQty: (parseInt(product.packedQty)) || 0,
+              balance: 0,
+              calcdBalance: 0,
+              id: product.productID
+            };
+          }
 
-        calcFaciltyBalance(packedProductJson);
-        vm.productLength = keyOrder.length;
-        keyOrder.forEach(function(key){
-          vm.packedProducts.push(packedProductJson[key]);
         });
+      })
 
-      }
+      calcFaciltyBalance(packedProductJson);
+
+      vm.productLength = keyOrder.length;
+      keyOrder.forEach(function(key){
+        vm.packedProducts.push(packedProductJson[key]);
+      });
+
     }
+
+    
     if(!angular.isArray(dailySchedule.balance)){
       reset(dailySchedule);
     }else{
@@ -56,6 +74,9 @@ angular.module('home.returned')
 
 
     vm.setDate = function(date){
+      vm.packedProducts = [];
+      vm.productLength = 0;
+
       packedProductJson = {};
       scheduleService.getDaySchedule(AuthService.currentUser.name, date)
         .then(function(response){

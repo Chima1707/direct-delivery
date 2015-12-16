@@ -49,14 +49,14 @@ angular.module('schedules')
       driverID = driverID || AuthService.currentUser.name;
       var deliveryDate = date || new Date();
       var key = driverID + '-' + utility.formatDate(deliveryDate);
-      return this.get('daily-deliveries/by-driver-date', key)
+      return this.get('daily-deliveries/by-driver-date-v1', key)
         .then(pouchUtil.pluckDocs)
         .then(pouchUtil.rejectIfEmpty)
         .then(formatRounds);
     };
 
     this.getByRound = function(roundId){
-      return this.get('daily-deliveries/by-round', roundId)
+      return this.get('daily-deliveries/by-round-v1', roundId)
         .then(pouchUtil.pluckDocs)
         .then(pouchUtil.rejectIfEmpty);
     };

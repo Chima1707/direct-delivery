@@ -5,8 +5,8 @@
 angular.module('schedules.round')
   .service('scheduleRoundService',  function(dbService, pouchUtil){
     var _this = this;
-
     _this.get = function(){
+      
       var params = {
         include_docs: true
       };
@@ -16,6 +16,7 @@ angular.module('schedules.round')
     };
 
     _this.getSortedByDate = function(){
+      
      return _this.get()
         .then(function(res){
           return res.sort(function(a,b){

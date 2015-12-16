@@ -30,13 +30,14 @@ angular.module('sync')
 
       _this.dailyByDriver = function (local, dbUrl, driverName, date) {
         date = utility.formatDate(date);
-        var filter = 'replication/by-driver-and-date';
+        var filter = 'replication/by-driver-and-date';//
         var params =  {
           date: date,
           driverId: driverName
         };
         var rep = _this.replicateByFilter(local, dbUrl, filter, params);
         rep.on('complete', function (res) {
+          
             $rootScope.$emit(SYNC_DAILY_DELIVERY.COMPLETE, {msg: res});
           })
           .on('error', function (err) {
@@ -50,7 +51,7 @@ angular.module('sync')
 
       _this.deliveryRndWithinDate = function (local, dbUrl, date) {
         date =  utility.formatDate(date);
-        var filter = 'delivery-rounds/within_date';
+        var filter = 'delivery-rounds/within_date'; // cant find this view
         var params = {
           date: date
         };
@@ -70,7 +71,6 @@ angular.module('sync')
       _this.dailySyncDown = function (local, dbUrl, driverName, date) {
         var drListeners = {};
         date = utility.formatDate(date);
-
         var removeListeners = function () {
           for (var unbind in drListeners) {
             drListeners[unbind]();

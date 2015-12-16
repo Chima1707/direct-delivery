@@ -7,7 +7,6 @@
       <table class="table">
         <thead>
           <th>Round Code</th>
-          <th>Lag</th>
           <th>Start Date</th>
           <th>End Date</th>
           <th>CompletedOn</th>
@@ -17,7 +16,6 @@
         <tbody ng-repeat="round in schedulesRoundCtrl.rounds track by $index">
           <tr>
             <td ng-bind="round.roundCode"></td>
-            <td ng-bind="round.lag"></td>
             <td ng-bind="schedulesRoundCtrl.formatDate(round.startDate)"></td>
             <td ng-bind="schedulesRoundCtrl.formatDate(round.endDate)"></td>
             <td ng-bind="schedulesRoundCtrl.formatDate(round.completedOn)"></td>
@@ -45,7 +43,7 @@
                       <th>Action</th>
                     </tr>
                   </thead>
-                  <tr ng-repeat="facilityRound in day track by $index">
+                  <tr ng-repeat="facilityRound in day.facilityRounds track by $index">
                     <td ng-bind="facilityRound.facility.name"></td>
                     <td ng-bind="facilityRound.drop"></td>
                     <td ng-bind="facilityRound.status"

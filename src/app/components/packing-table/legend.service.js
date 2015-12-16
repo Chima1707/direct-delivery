@@ -11,6 +11,7 @@ angular.module('packingTable')
     }
 
     function format(productStorages) {
+      
       function transpose(productStorage) {
         return {
           id: productStorage._id,
@@ -24,6 +25,7 @@ angular.module('packingTable')
     }
 
     this.get = function() {
+      
       var params = {
         reduce: false,
         /*eslint-disable camelcase */

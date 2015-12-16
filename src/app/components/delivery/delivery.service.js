@@ -95,10 +95,10 @@ angular.module('delivery')
 
 
     _this.filterByFacility = function (dd, facilityId) {
-      return dd
-        .filter(function (facRnd) {
-          return (facRnd.facility && _this.equalString(facilityId, facRnd.facility.id));
-        });
+      function filterFn (facRnd) {
+        return (facRnd.facility && _this.equalString(facilityId, facRnd.facility.id));
+      }
+      return angular.isArray(dd) ? dd.filter(filterFn) : dd.facilityRounds.filter(filterFn)
     };
 
     _this.roundOffBy = function(qty, presentation){
@@ -241,7 +241,6 @@ angular.module('delivery')
       function isDelivered(facilityRound) {
         return deliveredStatuses.indexOf(facilityRound.status) !== -1;
       }
-
       return deliveryRound.facilityRounds.every(isDelivered);
     };
   });
